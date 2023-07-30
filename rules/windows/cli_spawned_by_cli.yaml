@@ -1,0 +1,26 @@
+title: CLI Spawned by CLI
+id: 985c7966-c5b5-4a4e-8f35-04a0173c7ce9
+status: experimental
+description: Detects where a Command Line Interface (CLI) has been spawned from another CLI
+author: Christopher Grech
+date: 2023/07/30
+references:
+  - https://thedfirreport.com/2023/04/03/malicious-iso-file-leads-to-domain-wide-ransomware/
+tags:
+  - attack.privilege_escalation
+logsource:
+  category: process_creation
+  product: windows
+  service: sysmon
+detection:
+  selection:
+    ParentImage|endswith:
+      - '\cmd.exe'
+      - '\powershell.exe'
+    Image|endswith:
+      - '\cmd.exe'
+      - 'powershell.exe'
+  condition: selection
+falsepositives:
+   - Microsoft Defender
+level: medium
